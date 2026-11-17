@@ -29,7 +29,8 @@ ALLOWED_HOSTS = [
     h.strip()
     for h in os.getenv(
         "DJANGO_ALLOWED_HOSTS",
-        "127.0.0.1,localhost"
+        "127.0.0.1,localhost",
+        "ticket-mangement-system-1.onrender.com"
     ).split(",")
     if h.strip()
 ]
