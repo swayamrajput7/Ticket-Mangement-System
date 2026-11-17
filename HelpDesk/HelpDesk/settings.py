@@ -2,25 +2,37 @@ from pathlib import Path
 import os
 import sys
 from dotenv import load_dotenv
-
-load_dotenv()
+import os
+import sys
+from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
 _secret_key = os.getenv("DJANGO_SECRET_KEY")
+
 if not _secret_key and not DEBUG:
     from django.core.exceptions import ImproperlyConfigured
     raise ImproperlyConfigured(
-        "DJANGO_SECRET_KEY environment variable must be set in production. "
-        "Add it to your .env file or server environment."
+        "DJANGO_SECRET_KEY environment variable must be set in production."
     )
+
 SECRET_KEY = _secret_key or "unsafe-default-key-for-dev-only"
 
 IS_RUNSERVER = "runserver" in sys.argv
 
-ALLOWED_HOSTS = [h.strip() for h in os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if h.strip()]
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.getenv(
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost"
+    ).split(",")
+    if h.strip()
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
